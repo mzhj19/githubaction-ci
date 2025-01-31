@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/user")
 public class UserController {
 
-  @GetMapping("/test")
-  public ResponseEntity<String> test() {
+@GetMapping("/test")
+public ResponseEntity<String> test() {
     return ResponseEntity.ok("Test successfully done with updated version");
-  }
+}
 }
