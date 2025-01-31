@@ -10,6 +10,20 @@ permissions:
   contents: write
 
 jobs:
+  sonarqube:
+    runs-on: ubuntu-latest
+    services:
+      sonarqube:
+        image: sonarqube:lts-community
+        ports:
+          - 9000:9000
+        options: >-
+          --health-cmd "curl -f http://localhost:9000/api/system/status || exit 1"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+  
+
   build:
     runs-on: ubuntu-latest
 
@@ -41,11 +55,11 @@ jobs:
         run: ./gradlew test
 
       # Run SonarQube
-      - name: Build and analyze
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-        run: ./gradlew build sonar --info
+      - name: Run SonarQube Analysis
+        run: ./gradlew sonarqube
+#        env:
+#          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+#          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
       # Read the current version
       - name: Read version
