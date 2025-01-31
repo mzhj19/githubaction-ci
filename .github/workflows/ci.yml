@@ -56,7 +56,7 @@ jobs:
 
       # Run SonarQube
       - name: Run SonarQube Analysis
-        run: ./gradlew sonarqube
+        run: ./gradlew sonar
 #        env:
 #          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
 #          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
