@@ -76,14 +76,14 @@ jobs:
           # Output new version
           echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
 
-#      # Commit updated version.txt
-#      - name: Commit updated version.txt
-#        if: success()
-#        run: |
-#          git config user.name "GitHub Actions Bot"
-#          git config user.email "actions@github.com"
-#          git add version.txt
-#          git commit -m "Increment version to ${{ env.NEW_VERSION }}"
-#          git push
-#        env:
-#          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # Commit updated version.txt
+      - name: Commit updated version.txt
+        if: success()
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "actions@github.com"
+          git add version.txt
+          git commit -m "Increment version to ${{ env.NEW_VERSION }}"
+          git push
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
