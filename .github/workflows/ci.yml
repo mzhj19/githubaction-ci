@@ -10,22 +10,22 @@ permissions:
   contents: write
 
 jobs:
-  sonarqube:
-    runs-on: ubuntu-latest
-    services:
-      sonarqube:
-        image: sonarqube:lts-community
-        ports:
-          - 9000:9000
-        options: >-
-          --health-cmd "curl -f http://localhost:9000/api/system/status || exit 1"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-
-
-#  build:
+#  sonarqube:
 #    runs-on: ubuntu-latest
+#    services:
+#      sonarqube:
+#        image: sonarqube:lts-community
+#        ports:
+#          - 9000:9000
+#        options: >-
+#          --health-cmd "curl -f http://localhost:9000/api/system/status || exit 1"
+#          --health-interval 10s
+#          --health-timeout 5s
+#          --health-retries 5
+
+
+  build:
+    runs-on: ubuntu-latest
 
     steps:
       # Checkout the code
