@@ -40,6 +40,13 @@ jobs:
       - name: Run tests
         run: ./gradlew test
 
+      # Run SonarQube
+      - name: Build and analyze
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        run: ./gradlew build sonar --info
+
       # Read the current version
       - name: Read version
         id: read_version

@@ -3,12 +3,14 @@ plugins {
     id 'org.springframework.boot' version '3.4.2'
     id 'io.spring.dependency-management' version '1.1.7'
     id 'com.diffplug.spotless' version '6.25.0'
+    id "org.sonarqube" version "6.0.1.5171"
 }
 
 group = 'org.mdzahidhasanjamil'
 version = '0.0.1-SNAPSHOT'
 
 apply from: "$rootDir/gradle-config/spotless.gradle"
+apply from: "$rootDir/gradle-config/sonarqube.gradle"
 
 
 java {
