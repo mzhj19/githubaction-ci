@@ -2,7 +2,7 @@ name: Docker image creation and push to registry through CI
 
 on:
   push:
-    branches: [ "main"]
+    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
 
@@ -10,22 +10,19 @@ permissions:
   contents: write
 
 jobs:
-#  sonarqube:
-#    runs-on: ubuntu-latest
-#    services:
-#      sonarqube:
-#        image: sonarqube:lts-community
-#        ports:
-#          - 9000:9000
-#        options: >-
-#          --health-cmd "curl -f http://localhost:9000/api/system/status || exit 1"
-#          --health-interval 10s
-#          --health-timeout 5s
-#          --health-retries 5
-
-
   build:
     runs-on: ubuntu-latest
+
+    services:
+      sonarqube:
+        image: sonarqube:lts-community
+        ports:
+          - 9000:9000
+        options: >-
+          --health-cmd "curl -f http://localhost:9000/api/system/status || exit 1"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
 
     steps:
       # Checkout the code
@@ -38,11 +35,22 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      # Grant execute permissions to Gradle wrapper
+      # Wait for SonarQube to be ready
+      - name: Wait for SonarQube to be ready
+        run: |
+          echo "Waiting for SonarQube to start..."
+          for i in {1..30}; do
+            curl -s http://localhost:9000/api/system/status | grep -q "UP" && break
+            echo "SonarQube is not ready yet..."
+            sleep 5
+          done
+          echo "SonarQube is ready!"
+
+      # Grant execute permission for Gradle wrapper
       - name: Grant execute permissions to Gradle wrapper
         run: chmod +x ./gradlew
 
-      # Run Spotless check (Fail if formatting is incorrect)
+      # Run Spotless Check (Fail if formatting is incorrect)
       - name: Run Spotless Check
         run: ./gradlew spotlessCheck
 
@@ -54,12 +62,12 @@ jobs:
       - name: Run tests
         run: ./gradlew test
 
-      # Run SonarQube
+      # Run SonarQube Analysis
       - name: Run SonarQube Analysis
-        run: ./gradlew sonar
-#        env:
-#          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-#          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: ./gradlew sonarqube
+        env:
+          SONAR_HOST_URL: http://localhost:9000
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
       # Read the current version
       - name: Read version
