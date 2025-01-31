@@ -2,7 +2,7 @@ name: Docker image creation and push to registry through CI
 
 on:
   push:
-    branches: [ "main", "**"]
+    branches: [ "main"]
   pull_request:
     branches: [ "main" ]
 
