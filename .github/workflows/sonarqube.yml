@@ -1,0 +1,33 @@
+name: SonarQube Analysis
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  sonar:
+    name: SonarQube Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Grant Execute Permissions to Gradlew
+        run: chmod +x gradlew
+
+      - name: Run SonarQube Analysis
+        run: ./gradlew clean build jacocoTestReport sonarqube
+        env:
+          SONAR_HOST_URL: "http://localhost:9000"
+          SONAR_TOKEN: ""squ_985ad189ce0250af29ece166717040cbca2d10ec""

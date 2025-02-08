@@ -8,20 +8,19 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "logos")
-
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Logo {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@Id
+@GeneratedValue(strategy = GenerationType.IDENTITY)
+private Long id;
 
-    private String name;
+private String name;
 
-    @Lob
-    @Column(columnDefinition = "LONGBLOB")
-    private byte[] image;
+@Lob
+@Column(columnDefinition = "LONGBLOB")
+private byte[] image;
 }
