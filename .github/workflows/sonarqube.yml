@@ -1,4 +1,4 @@
-name: SonarQube
+name: SonarQube Quality Test
 on:
   push:
     branches:
