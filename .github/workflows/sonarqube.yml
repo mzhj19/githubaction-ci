@@ -28,6 +28,6 @@ jobs:
 
       - name: Run SonarQube Analysis
         run: ./gradlew clean build jacocoTestReport sonarqube
-        env:
-          SONAR_HOST_URL: "http://localhost:9000"
-          SONAR_TOKEN: ""squ_985ad189ce0250af29ece166717040cbca2d10ec""
+#        env:
+#          SONAR_HOST_URL: "http://localhost:9000"
+#          SONAR_TOKEN: ""squ_985ad189ce0250af29ece166717040cbca2d10ec""
