@@ -1,10 +1,11 @@
+# ci.yml
 name: Docker image creation and push to registry through CI
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  workflow_run:
+    workflows: ["SonarQube Quality Test"]
+    types:
+      - completed
 
 permissions:
   contents: write
@@ -13,7 +14,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      # Checkout the code
       - uses: actions/checkout@v4
 
       # Set up JDK 17
@@ -57,18 +57,11 @@ jobs:
         if: success()
         id: increment_version
         run: |
-          # Parse current version
           VERSION=$(cat version.txt)
           IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION"
-
-          # Increment the PATCH version
           PATCH=$((PATCH + 1))
           NEW_VERSION="$MAJOR.$MINOR.$PATCH"
-
-          # Update version.txt
           echo "$NEW_VERSION" > version.txt
-
-          # Output new version
           echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
 
       # Commit updated version.txt
