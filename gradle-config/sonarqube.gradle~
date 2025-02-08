@@ -1,6 +1,0 @@
-sonar {
-    properties {
-        property "sonar.projectKey", "githubaction-ci"
-        property "sonar.projectName", "githubaction-ci"
-    }
-}

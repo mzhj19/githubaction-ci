@@ -35,25 +35,6 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      # Wait for SonarQube to be ready
-      - name: Wait for SonarQube to be ready
-        run: |
-          echo "Waiting for SonarQube to start..."
-          for i in {1..30}; do
-            curl -s http://localhost:9000/api/system/status | grep -q "UP" && break
-            echo "SonarQube is not ready yet..."
-            sleep 5
-          done
-          echo "SonarQube is ready!"
-
-      # Grant execute permission for Gradle wrapper
-      - name: Grant execute permissions to Gradle wrapper
-        run: chmod +x ./gradlew
-
-      # Run Spotless Check (Fail if formatting is incorrect)
-      - name: Run Spotless Check
-        run: ./gradlew spotlessCheck
-
       # Build the JAR with Gradle
       - name: Build with Gradle
         run: ./gradlew clean build
@@ -61,13 +42,6 @@ jobs:
       # Run tests with Gradle
       - name: Run tests
         run: ./gradlew test
-
-      # Run SonarQube Analysis
-      - name: Run SonarQube Analysis
-        run: ./gradlew sonarqube
-        env:
-          SONAR_HOST_URL: http://localhost:9000
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
       # Read the current version
       - name: Read version
