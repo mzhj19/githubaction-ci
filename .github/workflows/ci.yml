@@ -1,16 +1,16 @@
 name: Docker image creation and push to registry through CI
+#
+#on:
+#  push:
+#    branches: *
+#  pull_request:
+#    branches: [ "main" ]
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-
-#on:
-#  workflow_run:
-#    workflows: ["SonarQube Quality Test"]
-#    types:
-#      - completed
+  workflow_run:
+    workflows: ["SonarQube Quality Test"]
+    types:
+      - completed
 
 permissions:
   contents: write
